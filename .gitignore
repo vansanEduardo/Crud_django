@@ -1,2 +1,19 @@
+# Arquivos Python
+*.pyc
+__pycache__/
+
+# Banco de dados local
+db.sqlite3
+
+# Pastas de configurações sensíveis
 settings/
-venv/
+.env
+
+# Arquivos de migração (opcional)
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Arquivos do sistema
+*.log
+*.swp
+.DS_Store
