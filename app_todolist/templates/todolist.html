@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To-Do List Estática</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-tr from-gray-900 to-gray-800 min-h-screen flex items-center justify-center p-8 text-white">
+  <div class="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl shadow-2xl w-full max-w-5xl p-10 space-y-8">
+    <h1 class="text-5xl font-extrabold text-center text-white drop-shadow-md">To-Do List</h1>
+    
+    <!-- Campo de nova tarefa -->
+    <form action="{% url 'create_task' %}" method="POST" class="space-y-6">
+      {% csrf_token %}
+      <div class="flex flex-col sm:flex-row gap-4">
+        <input
+          type="text"
+          name="title"
+          placeholder="Título"
+          class="flex-1 px-5 py-3 rounded-xl bg-white/10 text-white placeholder-gray-300 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        />
+        <input
+          type="text"
+          name="description"
+          placeholder="Descrição"
+          class="flex-1 px-5 py-3 rounded-xl bg-white/10 text-white placeholder-gray-300 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        />
+        <input type="submit" value="Adicionar"
+          class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200">
+      </div>
+    </form>
+
+    <!-- Lista de tarefas -->
+    <ul class="space-y-6">
+      {% for task in tasks %}
+      <form action="{% url 'update_task' task.id %}" method="POST" class="space-y-2">
+        {% csrf_token %}
+        <li class="flex flex-col gap-3 sm:flex-row sm:items-center justify-between bg-white/10 border border-white/20 px-6 py-4 rounded-xl shadow-md">
+          <div class="flex flex-col sm:flex-row gap-4 flex-1">
+            <input name="title" value="{{task.title}}" class="w-full sm:w-auto px-4 py-3 rounded-md bg-transparent border border-white/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            <input name="description" value="{{task.description}}" class="w-full sm:w-auto px-4 py-3 rounded-md bg-transparent border border-white/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          </div>
+          <div class="flex gap-2 mt-3 sm:mt-0">
+            <a href="{% url 'delete_task' task.id %}" class="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-xl font-semibold transition-all duration-200">Deletar</a>
+            <input type="submit" value="Atualizar" class="bg-green-500 hover:bg-green-600 text-white px-5 py-3 rounded-xl font-semibold transition-all duration-200">
+          </div>
+        </li>
+      </form>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
